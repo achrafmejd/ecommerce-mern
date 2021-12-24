@@ -1,0 +1,43 @@
+<%- include('partials/header'); -%>
+
+<h1><%= title %></h1>
+
+<h2>Total amount to pay :  <%= mycart[0].bill %> $</h2>
+
+<form action="/order">
+    <input name="Billing" type="text" placeholder="Billing address">
+    <br>
+    <label for="">Credit Card info</label>
+    <br>
+    <input name="CCN" type="number" minlength="16" placeholder="Credit Card Number">
+    <br>
+    <input name="nameCNN" type="text" placeholder="Name on credit card">
+    <br>
+    <input name="ccv" type="text" placeholder="Hidden number" maxlength="3">
+    <br>
+    <button>Confirm Payement</button>
+</form>
+
+<%- include('partials/footer'); -%>
+
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        //get values
+        const billing = form.Billing.value;
+        const creditCardInfo = form.CCN.value;
+        const nameCCN = form.nameCNN.value;
+        const ccv = form.ccv.value;
+        console.log( billing,creditCardInfo,nameCCN,ccv );
+        try {
+            const res= await fetch('/checkout', {
+                method : 'POST',
+                headers :  {'Content-Type' : 'application/json'},
+                body : JSON.stringify({billing,creditCardInfo,nameCCN,ccv})
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    })
+</script>

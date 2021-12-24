@@ -1,0 +1,3 @@
+SQL> show user
+USER est "SYS"
+SQL> spool off
