@@ -4,7 +4,14 @@ const Benefits = () => {
         marginTop : '30px'
     }}>
     <div className="container">
-        <div className="row benefit_row">
+        <div className="row">
+            <div className="col text-center">
+            <div className="section_title new_arrivals_title">
+                    <h2>OUR BENEFITS</h2>
+                </div>
+            </div>
+        </div>
+        <div className="row benefit_row" style={{marginTop: '3em', marginBottom: '3em'}}>
             <div className="col-lg-3 benefit_col">
                 <div className="benefit_item d-flex flex-row align-items-center">
                     <div className="benefit_icon"><i className="fa fa-truck" aria-hidden="true"></i></div>

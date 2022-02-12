@@ -106,7 +106,7 @@
 .product-image{
     height: 85%;
     
-    background-image: url('./item.jpg');
+    /* background-image: url('./item.jpg'); */
     background-repeat: no-repeat;
     background-size: contain;
     background-size: cover;

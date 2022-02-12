@@ -1,21 +1,51 @@
+import { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+
+
+function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="sm"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Centered Modal</h4>
+          <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+            consectetur ac, vestibulum at eros.
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+
+
 const Filter = () => {
+
+    const [modalShow, setModalShow] = useState(false);
+
     return (
 		<div className="products-filter">
-                       <div className="sidebar_section"><h5>Category</h5></div>
-                        <div className="navProducts">
-                            <ul className="sidebar_categories">
-                                <li className="active"><a href=""><span><i className="fa fa-angle-double-right" aria-hidden="true"></i></span>All Categories</a></li>
-                                <li><a href="#">Phones</a></li>
-                                <li><a href="#">TV</a></li>
-                                <li><a href="#">Laptop</a></li>
-                                <li><a href="#">Mouses</a></li>
-                                <li><a href="#">Webcam</a></li>
-                                <li><a href="#">Hard Disks</a></li>
-                            </ul>
-                            <button className="filter">
-                                Filter
-                            </button>
-                        </div>
+            <Button variant="secondary" onClick={() => setModalShow(true)}>
+                Filters
+            </Button>
+
+            <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
         </div>
 	)
 }

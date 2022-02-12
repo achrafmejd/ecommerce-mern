@@ -1,9 +1,9 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'; 
-import Home from './Home';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Products from './Products';
-import SingleProduct from './SingleProduct';
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Products from './pages/Products';
+import SingleProduct from './pages/SingleProduct';
 import Navbar from './components/t';
 
 function App() {

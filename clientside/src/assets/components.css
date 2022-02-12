@@ -990,10 +990,11 @@ section
 {
 	background: #FE7C7F !important;
 }
+
 .grid_sorting_button.active
 {
-	color: #FFFFFF;
-	background: #fe4c50;
+	/* color: #FFFFFF;
+	background: #fe4c50; */
 }
 
 /*********************************

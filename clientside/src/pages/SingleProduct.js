@@ -1,11 +1,11 @@
-import Navbar from "./components/Navbar";
-import Benefits from "./components/Benefits";
-import './assets/single.css';
-import './assets/mycss_single.css';
+import Navbar from "../components/Navbar";
+import Benefits from "../components/Benefits";
+import '../assets/single.css';
+import '../assets/mycss_single.css';
 import {Link} from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useState , useEffect} from "react";
-import Footer from "./components/Footer";
+import Footer from "../components/Footer";
 
 
 const SingleProduct = () => {
