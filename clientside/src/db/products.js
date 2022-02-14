@@ -5,10 +5,10 @@ export const productsDB = [{
                 {
                     id : 1,
                     title : "Ball",
-                    price: 100,
+                    price: 1050,
                     image : "./item.jpg",
                     description : defaultDescription,
-                    category : "Sport",
+                    category : "Food",
                     quantity : 200,
                     date :"2021-10-16T17:04:10.201+00:00",
                     numberOfItemSold : 154
@@ -19,7 +19,7 @@ export const productsDB = [{
                     price: 100,
                     image : "./item.jpg",
                     description : defaultDescription,
-                    category : "Sport",
+                    category : "Tech",
                     quantity : 200,
                     date :"2021-10-15T17:04:10.201+00:00",
                     numberOfItemSold : 4
@@ -27,10 +27,10 @@ export const productsDB = [{
                 {
                     id : 3,
                     title : "Ball",
-                    price: 100,
+                    price: 200,
                     image : "./item.jpg",
                     description : defaultDescription,
-                    category : "Sport",
+                    category : "Health",
                     quantity : 200,
                     date :"2021-10-14T17:04:10.201+00:00",
                     numberOfItemSold : 127
@@ -38,7 +38,7 @@ export const productsDB = [{
                 {
                     id : 4,
                     title : "Ball",
-                    price: 100,
+                    price: 350,
                     image : "./item.jpg",
                     description : defaultDescription,
                     category : "Sport",

@@ -2,6 +2,7 @@ import '../assets/components.css';
 import '../assets/componentsResponsive.css';
 import 'font-awesome/css/font-awesome.min.css';
 import {useState} from 'react';
+import OffCanvasExample from './OffCanvasExample';
 
 const Navbar = () => {
 	const [cart, setCart] = useState({display : 'none'});
@@ -64,17 +65,18 @@ const Navbar = () => {
 								</ul>
 
 								<ul className="navbar_user">
-									<li className="checkout">
+									{/* <li className="checkout">
 										<a href="#" onClick={()=>{handleClick('cart')}}>
 											<i className="fa fa-shopping-cart" aria-hidden="true"></i>
 											<span id="checkout_items" className="checkout_items">0</span>
 										</a>
-									</li>
+									</li> */}
+									<OffCanvasExample key={0} placement={'end'} name={'end'}/>
 									<li className=""><a href="#" onClick={()=>{handleClick('user')}}><i className="fa fa-user" aria-hidden="true"></i></a></li>
 									{/* <li className=""><a href="#"><i className="fa fa-bars" aria-hidden="true"></i></a></li> */}
 
 								</ul>
-
+{/* 
 								<div className="cart-dropdown" style={cart}>
 									<ul>
 										<li className="product-small-desc">
@@ -111,7 +113,7 @@ const Navbar = () => {
 										</li>
 
 									</ul>
-								</div>
+								</div> */}
 
 								<div className="user-dropdown" style={user}>
 								<ul>

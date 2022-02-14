@@ -1,13 +1,16 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, componentDidMount } from 'react';
 import {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {productsDB} from '../db/products.js';
 
-const DisplayProducts = () => {
 
-    const [products, setProducts] = useState(productsDB[0].productsBestSellersDB);
-    const [isPending, setPending] = useState(true);
+
+const DisplayProducts = (props) => {
+
+    /* const [products, setProducts] = useState(productsDB[0].productsBestSellersDB);
+    const [isPending, setPending] = useState(true); */
+   
    /*  useEffect(()=>{
         axios.get('/products')
             .then((res)=>{
@@ -22,8 +25,8 @@ const DisplayProducts = () => {
         {products && products.map(product=> */}
 
     return (
-        <div className="products">
-                   { products && products.map(product=>
+        <div className="products" style={{clear : 'both'}}>
+                   {props.products && props.products.map(product=>
                     <div className="product">
                         <div className="product-image" style={{backgroundImage : 'url(./item.jpg)'}}></div>
                         <div className="add-to-cart">
@@ -45,23 +48,10 @@ const DisplayProducts = () => {
                     </div>
                    )}
 
-                    {/* Hadshi li hnaya gha zwaa9 */}
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
-                    <div className="product"><div className="product-image"></div>
-                    <div className="product-info"></div></div>
+                    
         </div>
     )
 }
- 
+
+
 export default DisplayProducts;

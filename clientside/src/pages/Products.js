@@ -9,20 +9,21 @@ import Benefits from '../components/Benefits';
 import '../assets/mycss.css';
 import '../assets/mycssResponsive.css';
 
+
 const Products = () => {
     return (
         <div className="">
             <Navbar />
             <div className="productPage">
                 <div className="products-nav">
-                    <Breadcrumb />
-                    <Filter />
+                  {/*   <Breadcrumb /> */}
+                    <Filter  />
                 </div>
-                <DisplayProducts />
-                <div className="benefits">
+                
+               {/*  <div className="benefits">
                     <h5>Benefits of buying our products</h5>
                     <Benefits />
-                </div>
+                </div> */}
             </div>
         </div>
     )
