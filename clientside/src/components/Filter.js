@@ -3,6 +3,7 @@ import { Button, Modal, Form, Row, Col, InputGroup, FormControl, Toast} from 're
 import RangeSlider from 'react-bootstrap-range-slider';
 import DisplayProducts from './DisplayProducts';
 import {productsDB} from '../db/products.js';
+import axios from 'axios';
 
 const selectOption = {
   marginLeft : '5em',
@@ -25,17 +26,27 @@ const title = {
 } 
 
 const Filter = () => {
-    const [products, setProducts] = useState(productsDB[0].productsBestSellersDB);
-    const [tempProducts, setTempProducts] = useState(productsDB[0].productsBestSellersDB);
+    const [products, setProducts] = useState(null);
+    const [tempProducts, setTempProducts] = useState(null);
     const [isPending, setPending] = useState(true);
     const [category, setCategory] = useState('');
     const [sortBy, setSortBy] = useState('');
     const [categories, setCategories ] = useState(null);
+
+    useEffect(()=>{
+      axios.get('/products')
+          .then((res)=>{
+              console.log(res.data.products);
+              setProducts(res.data.products);
+              setPending(false);
+              console.log(products)
+          });
+      }, [])
     
     useEffect(()=>{
       const temp = []
-      products.map((element)=>{
-        temp.push(Object.values(element)[5])
+        products && products.map((element)=>{
+        temp.push(Object.values(element)[4])
      });
      temp.unshift('Category');
      setCategories([...temp]);
@@ -88,7 +99,8 @@ const Filter = () => {
                   style={{  marginLeft : '5em', marginRight: '1.5em'}}
                 />
             </InputGroup>
-            <DisplayProducts products={products} />
+            {isPending ? <p>LOADER HERE </p> :  <DisplayProducts products={products} />}
+            {/* <DisplayProducts pending={isPending} products={products} /> */}
           </div>
 	)
 }

@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     isAdmin : {
         type: Boolean,
         default: false
+    },
+    isSubscribedToNewsletter : {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -6,9 +6,21 @@ import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import ProductSummary from '../components/ProductSummary';
 import { Form, Row, Col, Button, ListGroup, Badge} from 'react-bootstrap';
+import {useState, useEffect} from 'react';
 
 
 const Checkout = () => {
+
+    const [myCart, setMyCart] = useState(JSON.parse(localStorage.getItem("myCart")) || [] );
+    const [bill, setBill] = useState(0);
+    let tempBill=0;
+    useEffect(()=>{
+          localStorage.setItem("myCart", JSON.stringify(myCart));
+          myCart.forEach((p)=>tempBill+=p.price*p.quantityWanted)
+          setBill(tempBill)
+        }, [myCart])  
+        
+    
     return ( 
         <div>
             <Navbar />
@@ -24,24 +36,24 @@ const Checkout = () => {
                     <Form>
                         <Row className="mb-3">
                             <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Label>First name</Form.Label>
+                            <Form.Control type="text" placeholder="First name" />
                             </Form.Group>
 
                             <Form.Group as={Col} controlId="formGridPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Label>Last name</Form.Label>
+                            <Form.Control type="text" placeholder="Last name" />
                             </Form.Group>
+
                         </Row>
+                            <Form.Group as={Col} controlId="formGridPassword">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="Email" />
+                            </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formGridAddress1">
                             <Form.Label>Address</Form.Label>
-                            <Form.Control placeholder="1234 Main St" />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formGridAddress2">
-                            <Form.Label>Address 2</Form.Label>
-                            <Form.Control placeholder="Apartment, studio, or floor" />
+                            <Form.Control placeholder="Shipping Address" />
                         </Form.Group>
 
                         <Row className="mb-3">
@@ -49,46 +61,13 @@ const Checkout = () => {
                             <Form.Label>City</Form.Label>
                             <Form.Control />
                             </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridState">
-                            <Form.Label>State</Form.Label>
-                            <Form.Select defaultValue="Choose...">
-                                <option>Choose...</option>
-                                <option>...</option>
-                            </Form.Select>
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridZip">
-                            <Form.Label>Zip</Form.Label>
-                            <Form.Control />
-                            </Form.Group>
+                            
                         </Row>
                     </Form>
                     <hr style={{marginTop: '2em'}}/>  
-                    <h2>Payment</h2>  
+                    <h2>Credit Card Info</h2>  
                     <Form>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Name on card</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridPassword">
-                            <Form.Label>Credit Card number</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
-                            </Form.Group>
-                        </Row>
-                        <Row className="mb-3">
-                            <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Expritation</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGridPassword">
-                            <Form.Label>CVV</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
-                            </Form.Group>
-                        </Row>
+                        
                        
 
 
@@ -99,45 +78,31 @@ const Checkout = () => {
                         
                     </Form>
                 </Col>
+                {/* Right side : CART SUMMARY */}
                 <Col className="" style={{marginTop : '1.7em', marginRight: '4em'}}>
-                    <ListGroup as="ol" numbered>
-                        <ListGroup.Item
-                            as="li"
-                            className="d-flex justify-content-between align-items-start"
-                        >
-                            <div className="ms-2 me-auto">
-                            <div className="fw-bold">Subheading</div>
-                            Cras justo odio
-                            </div>
-                            <Badge bg="primary" pill>
-                            14
-                            </Badge>
-                        </ListGroup.Item>
-                        <ListGroup.Item
-                            as="li"
-                            className="d-flex justify-content-between align-items-start"
-                        >
-                            <div className="ms-2 me-auto">
-                            <div className="fw-bold">Subheading</div>
-                            Cras justo odio
-                            </div>
-                            <Badge bg="primary" pill>
-                            14
-                            </Badge>
-                        </ListGroup.Item>
-                        <ListGroup.Item
-                            as="li"
-                            className="d-flex justify-content-between align-items-start"
-                        >
-                            <div className="ms-2 me-auto">
-                            <div className="fw-bold">Subheading</div>
-                            Cras justo odio
-                            </div>
-                            <Badge bg="primary" pill>
-                            14
-                            </Badge>
-                        </ListGroup.Item>
-                    </ListGroup>  
+                    <h2>Cart summary</h2>  
+                    {myCart && myCart.map((product)=>{
+                        return(
+                            <ListGroup.Item
+                                as="li"
+                                className="d-flex justify-content-between align-items-start"
+                                style={{ position: 'relative'}}
+                            >
+                                <div className="ms-2 me-auto">
+                                <div className="fw-bold">{product.title}</div>
+                                Quantity : {product.quantityWanted}
+                                </div>
+                                <Badge variant="warning" pill>
+                                {product.price}&nbsp;MAD
+                                </Badge>
+                                <a id="close-cart" href="#">
+                                <i className="fa fa-time}s" aria-hidden="true"></i>
+                                </a>
+                            </ListGroup.Item>
+                    )
+                  })} 
+                  <hr />
+                  <h2>You will pay : {bill} MAD</h2>
                 </Col>
             </Row>
         </div>

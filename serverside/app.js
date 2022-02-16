@@ -7,7 +7,7 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const cookieParser = require('cookie-parser');
 const {requireAuth, checkUser} = require('./middleware/authMiddleware');
-
+const stripe = require("stripe")('sk_test_51KTD5GBbdooSCxMFHIGXCJgOniHlL52IuB8hgmAXD1lnG7MAjawHQTQsffowDO43J0eSHaHyZkXdN5IKi8WdzYrc00mT2kWcjw')
 // Express app
 const app = express();
 
@@ -16,6 +16,14 @@ app.use(express.static('public'));
 app.use(express.json()); 
 /* express.json() : Takes any JSON coming from a POST Req and parse is as a JS Object */
 app.use(cookieParser());
+app.use((_, res, next)=>{
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
+})
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -43,6 +51,63 @@ app.use('/cart', cartRoutes);
 app.use('/checkout', orderRoutes);
 app.use(authRoutes);
 
+app.post('/stripe', async (req, res) => {
+    //user sends price along with request
+    console.log('STRIPE',req.body)
+    const userPrice = parseInt(req.body.price)*100;
+    try {
+        const intent = await stripe.paymentIntents.create({
+          
+          //use the specified price
+          amount: userPrice,
+          currency: 'usd'
+      
+        });      
+        //respond with the client secret and id of the new paymentintent
+        res.json({client_secret: intent.client_secret, intent_id:intent.id});
+    } catch (error) {
+        console.log(error)
+    }
+    //create a payment intent
+  })
+
+//handle payment confirmations
+app.post('/confirm-payment', async (req, res) => {
+    console.log('CONFIRM PAYMENT',req.body)
+    //extract payment type from the client request
+    const paymentType = String(req.body.payment_type);
+  
+    //handle confirmed stripe transaction
+    if (paymentType == "stripe") {
+  
+      //get payment id for stripe
+      const clientid = String(req.body.payment_id);
+  
+      //get the transaction based on the provided id
+      stripe.paymentIntents.retrieve(
+        clientid,
+        function(err, paymentIntent) {
+  
+          //handle errors
+          if (err){
+            console.log(err);
+          }
+          
+          //respond to the client that the server confirmed the transaction
+          if (paymentIntent.status === 'succeeded') {
+  
+            /*YOUR CODE HERE*/  
+            
+            console.log("confirmed stripe payment: " + clientid);
+            res.json({success: true});
+          } else {
+            res.json({success: false});
+          }
+        }
+      );
+    } 
+    
+  })
 // Cookies
 /* app.get('/set-cookies', (req,res)=>{
     //res.setHeader('Set-Cookie', 'newUser=true');

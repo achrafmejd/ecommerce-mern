@@ -26,14 +26,14 @@ const DisplayProducts = (props) => {
 
     return (
         <div className="products" style={{clear : 'both'}}>
-                   {props.products && props.products.map(product=>
+                   { props.products && props.products.map(product=>
                     <div className="product">
                         <div className="product-image" style={{backgroundImage : 'url(./item.jpg)'}}></div>
                         <div className="add-to-cart">
                             <Link to={{
-                                pathname: `/product/${product._id}`,
-                                state: product
-                            }}>
+                                pathname: `/products/${product._id}`,
+                                state: product._id
+}}>
 							    <button className="add-to-cart-btn">More Details</button>
                             </Link>
                             {/* <a href={`/product/${product._id}`}>
@@ -46,9 +46,7 @@ const DisplayProducts = (props) => {
                             </div>
                         </div>
                     </div>
-                   )}
-
-                    
+                   )}   
         </div>
     )
 }

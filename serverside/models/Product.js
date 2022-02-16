@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: [true, 'Please entr the product description']
+        required: [true, 'Please enter the product description']
     },
     category:{
         type: String,
@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    numberOfItemSold : {
+        type: Number,
+        default: 0
+    }
 });
 
 productSchema.pre('save', function(next){

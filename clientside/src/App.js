@@ -6,10 +6,8 @@ import Products from './pages/Products';
 import SingleProduct from './pages/SingleProduct';
 import Navbar from './components/t';
 import Checkout from './pages/Checkout';
-/* 
 import PaymentComponent from "./PaymentWidget/PaymentComponent";
 import { Container } from "react-bootstrap";
- */
 
 function App() {
   return (
@@ -27,17 +25,17 @@ function App() {
           <Route exact path="/products">
             <Products />
           </Route>
-          <Route exact path="/product/:id">
+          <Route exact path="/products/:id">
             <SingleProduct />
           </Route>
           <Route exact path="/test">
-            {/* <Container>
+            <Container>
               <PaymentComponent
                   keys={{
-                      stripe: "sk_test_51KTD5GBbdooSCxMFHIGXCJgOniHlL52IuB8hgmAXD1lnG7MAjawHQTQsffowDO43J0eSHaHyZkXdN5IKi8WdzYrc00mT2kWcjw"
+                      stripe: "pk_test_51KTD5GBbdooSCxMFV8hLU7XFToVcCR3YwXYCPnz7qvzb0yFZEHnwV946NZweNl86HuuvptZ5vtVcO09fBAp8GwuS00lOOKonsO"
                       }}
               />
-            </Container> */}
+            </Container>
           </Route>
           <Route exact path="/checkout">
             <Checkout />

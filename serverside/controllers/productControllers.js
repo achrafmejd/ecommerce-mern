@@ -17,7 +17,7 @@ module.exports.product_get_by_id = async (req,res)=>{
     const id = req.params.id;
     try{
         const product = await Product.findOne({_id : id});
-        res.status(200).render('product', {title : product.title, product});
+        res.status(200).json({product});
     }catch(error){
         console.log(error);
     }
@@ -95,12 +95,12 @@ module.exports.product_post_by_id = async (req,res)=>{
 
 module.exports.products_post = async (req, res)=>{
     const data = {
-        title : 'Knife',
-        image : 'data:image/png;base64,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',
-        description : 'Use it with the knife',
-        category : 'Kitchen',
-        price : 21,
-        quantity : 5,
+        title : 'Whey',
+        image: '.',
+        description : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut est in nunc maximus commodo ac et nisi. Ut quis accumsan enim. Nunc volutpat tincidunt urna ut facilisis. Nulla rhoncus, mauris eu iaculis rhoncus, augue urna facilisis neque, sed dignissim nisi nisi sit amet est. Vestibulum vitae enim posuere, accumsan elit ac, accumsan lacus. Curabitur eu tempor lorem. Mauris ultricies tempor ornare. Donec quis placerat nunc. Pellentesque vitae quam nisl. Suspendisse eget tincidunt augue. Aliquam iaculis augue iaculis mauris semper, finibus iaculis leo tempus. Ut malesuada mollis malesuada.Morbi semper interdum tincidunt. Pellentesque dapibus bibendum mauris vitae volutpat. Donec id luctus eros, nec bibendum mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis velit nec posuere interdum. Sed ut tellus id felis viverra volutpat. Curabitur ante diam, dignissim vitae scelerisque id, iaculis vitae augue. Quisque dolor dui, lobortis in ultricies ac, malesuada et orci. Suspendisse viverra accumsan felis et lacinia. Ut commodo eros sed hendrerit placerat. Morbi pellentesque nec ipsum eget laoreet. Cras volutpat sapien eu ipsum dignissim, ut convallis lacus porttitor.',
+        category : 'Health',
+        price : 100,
+        quantity : 150,
     }
     try{
         const products = await Product.create(data);
@@ -110,4 +110,8 @@ module.exports.products_post = async (req, res)=>{
         console.log(error);
     }
 }   
+
+module.exports.add_product = (req,res)=>{
+    res.send("Hello")
+}
 
