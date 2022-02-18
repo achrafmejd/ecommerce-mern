@@ -3,6 +3,7 @@ import '../assets/componentsResponsive.css';
 import 'font-awesome/css/font-awesome.min.css';
 import {useState} from 'react';
 import OffCanvasExample from './OffCanvasExample';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 	const [cart, setCart] = useState({display : 'none'});
@@ -54,66 +55,23 @@ const Navbar = () => {
 					<div className="row">
 						<div className="col-lg-12 text-right">
 							<div className="logo_container">
-								<a href="#">eBUY<span>store</span></a>
+								<Link to="/">eBUY<span>store</span></Link>
 							</div>
 							<nav className="navbar">
 								<ul className="navbar_menu">
-									<li><a href="/">home</a></li>
-									<li><a href="/products">our products</a></li>
+									<li><Link to="/">home</Link></li>
+									<li><Link to="/products">our products</Link></li>
 									<li><a href="#">about us</a></li>
 									<li><a href="#">contact us</a></li>
 								</ul>
 
 								<ul className="navbar_user">
-									{/* <li className="checkout">
-										<a href="#" onClick={()=>{handleClick('cart')}}>
-											<i className="fa fa-shopping-cart" aria-hidden="true"></i>
-											<span id="checkout_items" className="checkout_items">0</span>
-										</a>
-									</li> */}
+
 									<OffCanvasExample key={0} placement={'end'} name={'end'}/>
 									<li className=""><a href="#" onClick={()=>{handleClick('user')}}><i className="fa fa-user" aria-hidden="true"></i></a></li>
-									{/* <li className=""><a href="#"><i className="fa fa-bars" aria-hidden="true"></i></a></li> */}
 
 								</ul>
-{/* 
-								<div className="cart-dropdown" style={cart}>
-									<ul>
-										<li className="product-small-desc">
-											<a href="#">PRODUCT NAME</a>
-											<span>QUANTITY : 1</span>
-											<span>PRICE : 21$</span>
-											<a id="close-cart" href="#">
-												<i className="fa fa-times" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li className="product-small-desc">
-											<a href="#">PRODUCT NAME</a>
-											<span>QUANTITY : 1</span>
-											<span>PRICE : 21$</span>
-											<a id="close-cart" href="#">
-												<i className="fa fa-times" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li className="product-small-desc">
-											<a href="#">PRODUCT NAME</a>
-											<span>QUANTITY : 1</span>
-											<span>PRICE : 21$</span>
-											<a id="close-cart" href="#">
-												<i className="fa fa-times" aria-hidden="true"></i>
-											</a>
-										</li>
-										<li className="product-small-desc">
-											<p>SUMMARY</p>
-											<span>NUMBER OF PRODUCTS : 4</span>
-											<span>BILL : 21$</span>
-											<div className="checkout-container" >
-												<div className="red_button shop_now_button" ><a href="/products">GO TO CHECKOUT</a></div>
-											</div>
-										</li>
 
-									</ul>
-								</div> */}
 
 								<div className="user-dropdown" style={user}>
 								<ul>

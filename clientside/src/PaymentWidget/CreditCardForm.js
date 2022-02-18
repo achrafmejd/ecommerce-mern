@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Redirect, Link } from "react-router-dom";
 import {
     CardElement,
@@ -57,8 +57,50 @@ const SubmitButton = ({ processing, error, children, disabled }) => (
 //component declaration
 export default function CreditCardForm(props) {
 
-    let history = useHistory();
+    const getBill = (array) => {
+        let i=0;
+        if(array.length==1){
+            return array[0]['price'] * array[0]['quantityWanted'];
+        }
+        else{
+            array.forEach((p)=>i+=p.price*p.quantityWanted);
+            return i;
+        }
+        
+        /* else{
+            return array.reduce((a,b)=>{
+            a['price'] * a['quantityWanted'] + b['price'] * b['quantityWanted'], 0
+            })
+        } */
+    }
 
+    const [myCart, setMyCart] = useState(JSON.parse(localStorage.getItem("myCart")) || [] );
+    const [bill, setBill] = useState(0);
+    const [tempBill, setTempBill] =useState(0);
+
+          
+    useEffect(()=>{
+          localStorage.setItem("myCart", JSON.stringify(myCart));
+            console.log('from 1');
+            setTempBill(getBill(myCart));
+            console.log('temp', tempBill);
+            setBill(tempBill);
+            console.log('bill', bill)
+        }, [myCart])  
+
+    useEffect(()=>{
+        if(tempBill != 0){
+
+        setBill(tempBill)
+        console.log('from 2')
+        setTempBill(getBill(myCart));
+        console.log('temp', tempBill)
+        console.log('bill', bill) 
+        setPrice(tempBill/10)
+        }
+    }, [tempBill])
+    
+    let history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState(null);
@@ -66,7 +108,7 @@ export default function CreditCardForm(props) {
     const [cardComplete, setCardComplete] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('');
-    const [price, setPrice] = useState(55);
+    const [price, setPrice] = useState(0);
     const [billingDetails, setBillingDetails] = useState({
         email: '',
         name: '',
@@ -84,10 +126,7 @@ export default function CreditCardForm(props) {
         setBillingDetails({
         email: '',
         name: '',
-        address: {
-            line1: '',
-            line2: ''
-        }
+        address: '',
         });
     };
 
@@ -104,6 +143,10 @@ export default function CreditCardForm(props) {
 		4. send a confiemation to the server if the payment succeeded
 	*/
     const handleSubmit = async (event) => {
+        console.log(price)
+        /* console.log(myCart)
+        console.log(tempBill)
+        console.log(bill) */
         console.log(billingDetails)
         //prevent default form values
         event.preventDefault();
@@ -187,6 +230,9 @@ export default function CreditCardForm(props) {
                     payment_id: intentData.id,
                     payment_type: "stripe",
                     //send any other data here
+                    userId : '007',
+                    userCart: myCart,
+                    bill: price*10
                 })
                 .then(
                     (response) => {
@@ -200,7 +246,6 @@ export default function CreditCardForm(props) {
                         return error;
                     }
                 );
-
             //reset the state and show the success message
             if (confirmedPayment) {
 
@@ -211,6 +256,7 @@ export default function CreditCardForm(props) {
                  YOUR APPLICATION SPECIFIC CODE HERE:
                  for this example all we do is render a modal
                 */
+                setMyCart([]);
                 setSuccess(true);
             }
         }
@@ -221,6 +267,7 @@ export default function CreditCardForm(props) {
     //render
     return (
         // the credit card form
+        
         <Form className="Form" onSubmit={handleSubmit}>
 
             {/* Error modal */}
@@ -239,12 +286,13 @@ export default function CreditCardForm(props) {
 
 
             {/* success banner, only shows after confirmation */}
-            <Modal show={success}>
+            <Modal show={success} aria-labelledby="contained-modal-title-vcenter" centered>
                 <Modal.Header>
                     <Modal.Title>Payment Succeeded</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Your card payment has been confirmed
+                    <p>You will receive an Email as soun as your order is shipped</p>
                 </Modal.Body>
                 <Modal.Footer>
                         <Button variant="success" onClick={ () =>{history.push("/")}}>Close</Button>
@@ -269,6 +317,7 @@ export default function CreditCardForm(props) {
                 }}
             /> */}
             <h2>Billing address</h2>
+            <p>{tempBill ==0 ? <p>Wait</p> : <p>{price}</p>}</p>
             {/* Credit Card Payment Form */}
             <fieldset className="FormGroup">
                 {/* name field */}
@@ -322,8 +371,8 @@ export default function CreditCardForm(props) {
                 <CardField
                     style={{display: 'block'}}
                     onChange={(event) => {
-/*                         setError(event.error);
- */                        setCardComplete(event.complete);
+                        /* setError(event.error); */
+                        setCardComplete(event.complete);
                     }}
                 />
                 
@@ -339,3 +388,4 @@ export default function CreditCardForm(props) {
         </Form>
     );   
 }
+

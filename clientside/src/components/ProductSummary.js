@@ -5,28 +5,45 @@ import { Link } from 'react-router-dom';
 import '../assets/categories.css';
 import '../assets/categoriesResponsive.css';
 import {productsDB} from '../db/products.js';
+import 'animate.css';
+
 
 const ProductSummary = () => {
     /* This is gonna be all our data coming from our server respecting the format used products.js file */
-    const [dbProducts, setDbProducts] = useState(productsDB);
+    const [dbProducts, setDbProducts] = useState(null);
     /* By default the best seller button is clicked and we display the best seller products */
-    const [products, setProducts] = useState(productsDB[0].productsBestSellersDB);
+    const [products, setProducts] = useState(null);
     /* These 2 lines below are used to control the style of the buttons Best sellers & New Arravals */
     const [buttonBS, setButtonBestSeller] = useState({color: '#FFFFFF',background: '#fe4c50'});
     const [buttonNA, setButtonNewArrivals] = useState({color : '', background: ''});
     /* We control the state when data is not fetched yet by default should be false */
     const [isPending, setPending] = useState(true);
 
-   /* This will be used when fetching from db */  
-    /*useEffect(()=>{
-        axios.get('/products')
+    /* This will be used when fetching from db */  
+    useEffect(()=>{
+        axios.get('http://localhost:3001')
             .then((res)=>{
-                console.log(res.data.products);
-                setProducts(res.data.products);
-                setPending(false);
-            });
-    }, []) */
+                setDbProducts(res.data[0]);
+            })
+    }, [])
 
+    useEffect(()=>{
+        if(dbProducts != null){
+            console.log('DB PRODUCTS CHANGED ')
+            console.log(dbProducts)
+            setProducts(dbProducts.popularProducts)
+
+        }else{
+            console.log('not cnaged')
+        }
+
+    }, [dbProducts])
+
+
+    
+    console.log('ALL DATA', dbProducts);
+    console.log('BUTTON DATA first', products);
+    //console.log('BUTTON DATA sedonc', dbProducts.sortedProducts)
     const handleClickButton = (element)=> {
             if(element=='BS'){
                 /* Best seller Button is clicked */
@@ -35,7 +52,8 @@ const ProductSummary = () => {
                     if(buttonNA.background != '' && buttonNA.color != ''){
                         setButtonNewArrivals({color : '', background: ''});
                         setButtonBestSeller({color: '#FFFFFF',background: '#fe4c50'});
-                        setProducts(productsDB[0].productsBestSellersDB);
+                        setProducts(dbProducts.popularProducts);
+                        //console.log(dbProducts.popularProducts)
                     }else{
                         setButtonBestSeller({color: '#FFFFFF',background: '#fe4c50'});
                     }
@@ -47,7 +65,8 @@ const ProductSummary = () => {
                     if(buttonBS.background != '' && buttonBS.color != ''){
                         setButtonBestSeller({color: '',background: ''});
                         setButtonNewArrivals({color: '#FFFFFF',background: '#fe4c50'});
-                        setProducts(productsDB[0].productsNewArrivalsDB);
+                        setProducts(dbProducts.sortedProducts);
+                        //console.log(dbProducts[0].sortedProducts)
                     }else{
                         setButtonBestSeller({color: '#FFFFFF',background: '#fe4c50'});
                     }
@@ -80,25 +99,25 @@ const ProductSummary = () => {
                     </div>
 
 
-                    <div className="row">
+                    <div className="row ">
                     { products && products.map(product=>
-                        <div className="product">
+                        <div  className="product animate__backOutLeft">
                             <div className="product-image" style={{backgroundImage : 'url(./item.jpg)'}}></div>
                             <div className="add-to-cart">
                                 <Link to={{
-                                    pathname: `/product/${product._id}`,
+                                    pathname: `/products/${product._id}`,
                                     state: product
                                 }}>
                                     <button className="add-to-cart-btn">More Details</button>
                                 </Link>
-                                {/* <a href={`/product/${product._id}`}>
-                                </a> */}
                             </div>
                             <div className="product-info">
                                 <div className="title-price">
                                     <h6>{product.title}</h6>
                                     <p>{product.price}.00$</p>
+                                    <p>Add</p>
                                 </div>
+
                             </div>
                         </div>
                     )}

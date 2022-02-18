@@ -6,22 +6,23 @@ import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import ProductSummary from '../components/ProductSummary';
 import {useEffect} from 'react';
+import {useState} from 'react';
 
 
 
 const Home = () => {
+
     useEffect(()=>{
         localStorage.setItem("myCart", JSON.stringify([]));
+        
     }, [])
+
+
     return ( 
         <div>
-            <Navbar />
-            <Hero />
+*           <Hero />
             <ProductSummary />
             <DealOfTheWeek />
-            <Benefits />
-            <Newsletter />
-            <Footer />
         </div>
      );
 }

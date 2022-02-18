@@ -22,6 +22,7 @@ const SingleProduct = () => {
 				r.json()
 			}) */
 			.then((r)=>{
+				console.log(r.data)
 				setProduct(r.data.product)
 			})
 			
@@ -66,7 +67,6 @@ const SingleProduct = () => {
 	}
 	return (
         <div>
-            <Navbar />
 			{product && 
 			
         <div className="singleProduct-grid">
@@ -107,9 +107,6 @@ const SingleProduct = () => {
             </div>
         </div>
 			}
-			{/* <Benefits />
-			<Newsletter />
-			<Footer /> */}
         </div>
     );
 }

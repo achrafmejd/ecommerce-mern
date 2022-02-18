@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const homeRoutes = require('./routes/homeRoutes');
 const cookieParser = require('cookie-parser');
 const {requireAuth, checkUser} = require('./middleware/authMiddleware');
 const stripe = require("stripe")('sk_test_51KTD5GBbdooSCxMFHIGXCJgOniHlL52IuB8hgmAXD1lnG7MAjawHQTQsffowDO43J0eSHaHyZkXdN5IKi8WdzYrc00mT2kWcjw')
@@ -25,15 +26,6 @@ app.use((_, res, next)=>{
   next()
 })
 
-// View Engine
-app.set('view engine', 'ejs');
-// Routes
-app.get('/api', (req,res)=>{
-    res.json({
-        name : 'achraf'
-    })
-})
-
 // DB Connection
 dbURI = 'mongodb://localhost:27017/mern';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
@@ -45,7 +37,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true})
 
 
 app.get('*', checkUser);
-app.get('/', (req, res) => res.render('home', {title : 'Home'}));
+app.get('/', homeRoutes);
 app.use('/products',productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', orderRoutes);
@@ -74,6 +66,7 @@ app.post('/stripe', async (req, res) => {
 //handle payment confirmations
 app.post('/confirm-payment', async (req, res) => {
     console.log('CONFIRM PAYMENT',req.body)
+    
     //extract payment type from the client request
     const paymentType = String(req.body.payment_type);
   
@@ -108,16 +101,3 @@ app.post('/confirm-payment', async (req, res) => {
     } 
     
   })
-// Cookies
-/* app.get('/set-cookies', (req,res)=>{
-    //res.setHeader('Set-Cookie', 'newUser=true');
-    res.cookie('newUser', false, {maxAge : 1000*60*60*24, secure: true});
-    res.send('You got the cookies');
-});
-
-app.get('/read-cookies', (req,res)=>{
-    const cookies = req.cookies;
-    console.log(cookies);
-
-    res.json(cookies);
-}); */

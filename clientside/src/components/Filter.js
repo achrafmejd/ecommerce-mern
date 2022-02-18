@@ -76,29 +76,36 @@ const Filter = () => {
 
     return (
 		      <div className="products-filter">
-            <h6 style={title}>Filter the products :</h6>
-            <InputGroup className="mb-3" style={{width : '100%'}}>
-                <select style={selectOption} onChange={(e)=>handleCategory(e.target.value)}>
-                    <>
-                    {categories && categories.map((categ)=>{
-                      return(
-                        <option value={categ}>{categ}</option>                     
-                      )
-                    })}
-                    </>
-                </select>
-                <select style={selectOption} onChange={(e)=>handleSortBy(e.target.value)}> 
-                  <option value="">Sort By</option>
-                  <option value="priceDesc">Price High - Low</option>
-                  <option value="priceAsc">Price Low - High</option>
-                </select>
-              <FormControl
-                  aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default"
-                  placeholder="Search By Product Name"
-                  style={{  marginLeft : '5em', marginRight: '1.5em'}}
-                />
-            </InputGroup>
+
+            <div className="container">
+              <div className="row">
+                <h6 style={title}>Filter the products :</h6>
+                <InputGroup className="mb-3" style={{width : '100%'}}>
+                    <select style={selectOption} onChange={(e)=>handleCategory(e.target.value)}>
+                        <>
+                        {categories && categories.map((categ)=>{
+                          return(
+                            <option value={categ}>{categ}</option>                     
+                          )
+                        })}
+                        </>
+                    </select>
+                    <select style={selectOption} onChange={(e)=>handleSortBy(e.target.value)}> 
+                      <option value="">Sort By</option>
+                      <option value="priceDesc">Price High - Low</option>
+                      <option value="priceAsc">Price Low - High</option>
+                    </select>
+                  <FormControl
+                      aria-label="Default"
+                      aria-describedby="inputGroup-sizing-default"
+                      placeholder="Search By Product Name"
+                      style={{  marginLeft : '5em', marginRight: '1.5em'}}
+                    />
+                </InputGroup>
+            
+              </div>
+            </div>
+
             {isPending ? <p>LOADER HERE </p> :  <DisplayProducts products={products} />}
             {/* <DisplayProducts pending={isPending} products={products} /> */}
           </div>
