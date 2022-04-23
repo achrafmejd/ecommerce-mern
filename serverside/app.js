@@ -9,6 +9,7 @@ const homeRoutes = require('./routes/homeRoutes');
 const cookieParser = require('cookie-parser');
 const {requireAuth, checkUser} = require('./middleware/authMiddleware');
 const stripe = require("stripe")('sk_test_51KTD5GBbdooSCxMFHIGXCJgOniHlL52IuB8hgmAXD1lnG7MAjawHQTQsffowDO43J0eSHaHyZkXdN5IKi8WdzYrc00mT2kWcjw')
+const passport = require("passport");
 // Express app
 const app = express();
 
@@ -25,6 +26,8 @@ app.use((_, res, next)=>{
   )
   next()
 })
+app.use(passport.initialize());
+require("./controllers/auth")(passport);
 
 // DB Connection
 dbURI = 'mongodb://localhost:27017/mern';
@@ -42,18 +45,23 @@ app.use('/products',productRoutes);
 app.use('/cart', cartRoutes);
 app.use('/checkout', orderRoutes);
 app.use(authRoutes);
+/* From here */
+app.use("/api/register", require("./routes/register"));
+app.use("/api/login", require("./routes/login"));
+app.use("/api/2fa", require("./routes/2fa"));
+// THIS ROUTE IS NOT USED IN THE APP, JUST A SAMPLE JWT VERIFICATION
+app.use("/api/token", require("./routes/tokenVerification"));
+/* To here */
 
 app.post('/stripe', async (req, res) => {
     //user sends price along with request
     console.log('STRIPE',req.body)
     const userPrice = parseInt(req.body.price)*100;
     try {
-        const intent = await stripe.paymentIntents.create({
-          
+        const intent = await stripe.paymentIntents.create({ 
           //use the specified price
           amount: userPrice,
           currency: 'usd'
-      
         });      
         //respond with the client secret and id of the new paymentintent
         res.json({client_secret: intent.client_secret, intent_id:intent.id});

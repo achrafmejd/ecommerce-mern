@@ -1,10 +1,11 @@
 import { useState , useEffect} from 'react';
-import { Button, Modal, Form, Row, Col, InputGroup, FormControl, Toast} from 'react-bootstrap';
+import { Button, Modal, Form, Row, Col, InputGroup, FormControl, Toast, Spinner} from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
 import DisplayProducts from './DisplayProducts';
 import {productsDB} from '../db/products.js';
 import axios from 'axios';
 
+import {Link} from 'react-router-dom';
 const selectOption = {
   marginLeft : '5em',
   fontSize: '0.8rem',
@@ -74,6 +75,22 @@ const Filter = () => {
       console.log(products)
     }
 
+    const  [text, setText] = useState('');
+    const [sugg, setSugg] = useState([]);
+
+    const onChangeHandler = (text) =>{
+      let matches = []
+      if(text.length >0){
+          matches = products.filter((dt)=>{
+              const regex = new RegExp(`${text}`, "gi");
+              return dt.title.match(regex);
+          })
+      }
+      console.log(matches);
+      setSugg(matches);
+      setText(text);
+  }
+
     return (
 		      <div className="products-filter">
 
@@ -100,13 +117,47 @@ const Filter = () => {
                       aria-describedby="inputGroup-sizing-default"
                       placeholder="Search By Product Name"
                       style={{  marginLeft : '5em', marginRight: '1.5em'}}
+                      value={text}
+                      onChange={(e)=>{onChangeHandler(e.target.value)}}
                     />
+                    <div className='s-container' style={{
+                        position: 'absolute',
+                        width: '51%',display: 'flex',
+                        flexDirection: 'column',
+                        right: '2.8%',
+                        top: '100%',
+                        zIndex: 2,
+                        
+                    }}>
+                            {
+                                sugg && sugg.map((s, i)=>{
+                                        return(
+                                            <Link key={s.idMeal} className="sugg-container" to={{
+                                                pathname : '/products/'+s.idMeal,
+                                                state: s
+                                            }}
+                                            style={{
+                                              backgroundColor: 'white',
+                                              padding: '10px',
+                                              color: 'black',
+                                              padding: '5px',
+                                              height: '40px',
+                                              textDecoration: 'none',
+                                              positon: 'absolute',
+                                              top: '25%',
+                                              borderBottom: '1px solid grey'
+                                            }}>{s.title} - {s.category } - {s.price} MAD</Link>
+                                       )
+                                })
+                            }
+                        </div>
                 </InputGroup>
+                
             
               </div>
             </div>
 
-            {isPending ? <p>LOADER HERE </p> :  <DisplayProducts products={products} />}
+            {isPending ? <div className="container" style={{padding:'40px',display: 'flex', justifyContent: 'space-around', height: '800px', position: 'relative'}}><div className="row"><Spinner animation="border" variant="danger" style={{position: 'absolute', top:'50%'}}/></div></div> : <DisplayProducts products={products} /> }
             {/* <DisplayProducts pending={isPending} products={products} /> */}
           </div>
 	)

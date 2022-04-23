@@ -77,9 +77,9 @@ const Navbar = () => {
 								<ul>
 										<li className="">
 											<i className="fa fa-user" aria-hidden="true"></i>&nbsp;
-											<a href="#">MY PROFILE</a>
+											<a href="/dashboard">My Dashboard</a>
 										</li>
-										<li className="">
+										{/* <li className="">
 											<i className="fa fa-sign-in" aria-hidden="true"></i>&nbsp;
 											<a href="#">LOG IN</a>
 											 
@@ -92,7 +92,7 @@ const Navbar = () => {
 										<li className="">
 											<i className="fa fa-sign-out" aria-hidden="true"></i>&nbsp;
 											<a href="#">LOG OUT</a>
-										</li>
+										</li> */}
 									</ul>
 								</div>
 

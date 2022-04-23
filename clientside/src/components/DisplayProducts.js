@@ -8,21 +8,6 @@ import {productsDB} from '../db/products.js';
 
 const DisplayProducts = (props) => {
 
-    /* const [products, setProducts] = useState(productsDB[0].productsBestSellersDB);
-    const [isPending, setPending] = useState(true); */
-   
-   /*  useEffect(()=>{
-        axios.get('/products')
-            .then((res)=>{
-                console.log(res.data.products);
-                setProducts(res.data.products);
-                setPending(false);
-            });
-        }, []) */
-
-        //console.log('products',products);
-        {/* {isPending && <div>Loading...</div>}
-        {products && products.map(product=> */}
 
     return (
         <div className="container">
